@@ -45,6 +45,87 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+ChatBot::ChatBot(const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Constructor" << "\n";
+    
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+
+    // load into heap memory
+    _image = new wxBitmap(*(src._image));
+}
+// Copy Constructor
+
+ChatBot& ChatBot::operator=(const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Assignment Operator" << "\n";
+
+    if (this == &src)
+    {
+        return *this;
+    }
+    
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+
+    if (NULL != _image)
+    {
+        delete _image;
+    }
+
+    // load into heap memory
+    _image = new wxBitmap(*(src._image));
+    return *this;
+}
+// Assignment Operator
+
+ChatBot::ChatBot(ChatBot&& src)
+{
+    std::cout << "ChatBot Move Constructor" << "\n";
+    
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _chatLogic->SetChatbotHandle(this);
+
+    src._chatLogic = nullptr;
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+
+    // load into heap memory
+    _image = src._image;
+    src._image = NULL;
+}
+// Move Constructor
+
+ChatBot& ChatBot::operator=(ChatBot&& src)
+{
+    std::cout << "ChatBot Move Assign Operator" << "\n";
+
+    if (this == &src)
+    {
+        return *this;
+    }
+
+    _chatLogic = src._chatLogic;
+    _rootNode = src._rootNode;
+    _currentNode = src._currentNode;
+    _chatLogic->SetChatbotHandle(this);
+
+    src._chatLogic = nullptr;
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+
+    // load into heap memory
+    _image = src._image;
+    src._image = NULL;
+
+    return *this;
+}
+// Move Assign Operator
 ////
 //// EOF STUDENT CODE
 
